@@ -1,5 +1,8 @@
-class Example extends Phaser.Scene
-{
+class Intro extends Phaser.Scene
+{   
+    constructor() {
+        super('intro')
+    }
     preload ()
     {
         this.load.image("fairy", "assets/fairy for section.png");
@@ -53,6 +56,21 @@ class Example extends Phaser.Scene
             loop: -1,
             loopDelay: 300,
         });
+        this.input.on('pointerdown', () => {
+            this.cameras.main.fade(1000, 0,0,0);
+            this.time.delayedCall(1000, () => this.scene.start('victory'));
+        });
+    }
+}
+
+class Victory extends Phaser.Scene{
+    constructor() {
+        super('victory');
+    }
+    create() {
+        this.add.text(50, 50, "That's all!").setFontSize(50);
+        this.add.text(50, 100, "Click anywhere to restart.").setFontSize(20);
+        this.input.on('pointerdown', () => this.scene.start('intro'));
     }
 }
 
@@ -62,7 +80,7 @@ const config = {
     height: 600,
     backgroundColor: '#FFC0CB',
     parent: 'phaser-example',
-    scene: Example
+    scene: [Intro, Victory]
 };
 
 const game = new Phaser.Game(config);
