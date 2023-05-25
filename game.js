@@ -67,9 +67,43 @@ class Victory extends Phaser.Scene{
     constructor() {
         super('victory');
     }
+    preload ()
+    {
+        this.load.image("rolly polly", "assets/rolly polly for section.png");
+        this.load.image("award", "assets/award.png");
+        
+    }
     create() {
-        this.add.text(50, 50, "That's all!").setFontSize(50);
-        this.add.text(50, 100, "Click anywhere to restart.").setFontSize(20);
+        const text = this.add.text(400, 150, 'Victory!', { align: 'center' }, 0xFF69B4);
+        text.setTint(0xFF69B4, 0xFFC0CB, 0x9F2B68, 0xE30B5C);
+        text.setOrigin(0.5, 0.5);
+        text.setResolution(window.devicePixelRatio);
+        text.setFontFamily('Arial');
+        text.setFontStyle('bold');
+        text.setFontSize(100);
+
+        text.preFX.setPadding(32);
+        
+        const bug = this.add.image(100, 500, 'rolly polly');
+        const award = this.add.image(500, 450, 'award');
+        bug.setScale(2);
+
+        this.tweens.add({
+            targets: bug,
+            x: 400,
+            ease: 'power3',
+            duration: 1000
+        });
+        this.tweens.add({
+            targets: award,
+            x: 400,
+            ease: 'power3',
+            duration: 500
+        });
+        
+
+
+
         this.input.on('pointerdown', () => this.scene.start('intro'));
     }
 }
